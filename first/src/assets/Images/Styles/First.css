@@ -1,0 +1,12 @@
+table thead tr th {
+  border: 0.1px solid black;
+  padding: 5px 25px;
+  background-color: aquamarine;
+  color: bisque;
+}
+
+table thead tr td {
+  border: 0.1px solid black;
+  padding: 5px 25px;
+  text-align: center;
+}
