@@ -1,0 +1,200 @@
+.cake-page {
+  padding: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cake-title {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.cake-subtitle {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.cake-controls {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.control-btn {
+  padding: 8px 14px;
+  border: none;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cake-count {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.cake-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 40px 30px;
+}
+
+.cake-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+  position: relative;
+}
+
+.cake-card:hover {
+  transform: scale(1.03);
+}
+
+.cake-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.cake-price {
+  background-color: #333;
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 13px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border-radius: 4px;
+}
+
+.cake-name {
+  margin: 10px 10px 0 10px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.cake-info {
+  margin: 6px 10px 14px 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Overlay behind popup (dimmed dark background) */
+.sort-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(2, 6, 12, 0.6); /* Swiggy-style dimmed black */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* The popup/modal box */
+.popup-box {
+  background-color: #fff;
+  border-radius: 18px;
+  padding: 24px 30px;
+  width: 420px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+  animation: fadeSlideUp 0.25s ease;
+}
+
+/* Fancy fade+slide animation */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* List styling inside the sort popup */
+.popup-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.popup-box li {
+  margin-bottom: 12px;
+}
+
+.popup-box label {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: #02060c;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.popup-box label:hover {
+  color: #fc8019; /* Swiggy’s orange for hover */
+}
+
+.popup-box input[type="radio"],
+.popup-box input[type="checkbox"] {
+  accent-color: #fc8019; /* Orange for both radio and checkbox */
+}
+
+/* Apply button */
+.apply-btn {
+  margin-top: 16px;
+  padding: 10px 16px;
+  background-color: #fc8019;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.apply-btn:hover {
+  background-color: red;
+}
+
+/* Add to Cart button */
+.add-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin: 0 10px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-btn:hover {
+  background-color: red;
+}
+
+/* Quantity controls */
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 10px 14px;
+}
+
+.qty-controls button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}

@@ -129,24 +129,86 @@
 
 // export default App;
 
-import React from 'react';
+import React, { useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import FoodData from './Components/FoodData';
 import FoodItem from './Components/FoodItems';
-import Image from "./assets/Pizza.png"; 
+import Pizza from './Components/Pizza';
+import Burger from './Components/Burger';
+import Pasta from './Components/Pasta';
+import Momo from './Components/Momo';
+import Chinese from './Components/Chinese';
+import Cake from './Components/Cake';
+import Shake from './Components/Shake';
+import Sweets from './Components/Sweets';
+import Beverages from './Components/Beverages';
 
-const App = () => {
+const Home = () => {
+  const scrollRef = useRef();
+
+  const scroll = (direction) => {
+    const { current } = scrollRef;
+    if (direction === 'left') {
+      current.scrollLeft -= 300;
+    } else {
+      current.scrollLeft += 300;
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-white p-8">
-      <h1 className="text-2xl font-bold mb-6">Food Menu</h1>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-        {FoodData.map((item, index) => (
-          <FoodItem key={index} name={item.name} image={item.image} />
-        ))}
-        
+    <>
+    <div className="container">
+      <h2 className="section-title">Popular Food</h2>
+
+      <div className="scroll-wrapper">
+        <button className="arrow left" onClick={() => scroll('left')}>&lt;</button>
+
+        <div className="food-row" ref={scrollRef}>
+          {FoodData.map((food) => (
+            <FoodItem key={food.id} id={food.id} name={food.name} image={food.image} />
+          ))}
+        </div>
+
+        <button className="arrow right" onClick={() => scroll('right')}>&gt;</button>
       </div>
+    </div>
+    </>
+  );
+};
+
+const FoodDetail = () => {
+  const { foodId } = useParams();
+  const food = FoodData.find((item) => item.id === foodId);
+  if (!food) return <h2 style={{ padding: '20px' }}>Food item not found</h2>;
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <h2>{food.name}</h2>
+      <img src={food.image} alt={food.name} style={{ width: '300px', borderRadius: '10px' }} />
+      <p style={{ marginTop: '15px' }}>{food.description}</p>
     </div>
   );
 };
 
+const App = () => (
+  <Router>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/food/:foodId" element={<FoodDetail />} />
+      <Route path="/pizza" element={<Pizza />} />
+      <Route path="/burger" element={<Burger />} />
+      <Route path="/pasta" element={<Pasta />} />
+      <Route path="/momo" element={<Momo />} />
+      <Route path="/chinese" element={<Chinese />} />
+      <Route path="/cake" element={<Cake />} />
+      <Route path="/shake" element={<Shake />} />  
+      <Route path="/sweets" element={<Sweets />} /> 
+      <Route path="/beverages" element={<Beverages />} /> 
+      <Route path="*" element={<h2>Page Not Found</h2>} />
+    </Routes>
+  </Router>
+);
+
 export default App;
+
 

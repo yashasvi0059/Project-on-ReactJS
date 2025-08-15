@@ -1,0 +1,85 @@
+.container {
+  padding: 30px;
+  position: relative;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.scroll-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.food-row {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  scroll-behavior: smooth;
+  padding: 10px 0;
+}
+
+.food-row::-webkit-scrollbar {
+  display: none;
+}
+
+.food-card {
+  flex: 0 0 auto;
+  width: 150px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.food-card:hover {
+  transform: scale(1.05);
+}
+
+.food-img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.food-name {
+  margin-top: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  width: 35px;
+  height: 35px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.arrow:hover {
+  background: #f0f0f0;
+}
+
+.arrow.left {
+  left: -10px;
+}
+
+.arrow.right {
+  right: -10px;
+}
