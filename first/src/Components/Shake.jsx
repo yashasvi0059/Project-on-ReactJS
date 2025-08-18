@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { CartContext } from './CartContext';
 import '../assets/Images/Styles/Shake.css';
 import Shake1 from '../assets/Images/Shake1.png';
 import Shake2 from '../assets/Images/Shake2.png';
@@ -125,94 +126,43 @@ const shakeData = [
 ];
 
 const Shake = () => {
-  const [sortPopup, setSortPopup] = useState(false);
-  const [isDeliveryFiltered, setIsDeliveryFiltered] = useState(false);
+  const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+
   const [isEgglessOnly, setIsEgglessOnly] = useState(false);
   const [isEggOnly, setIsEggOnly] = useState(false);
   const [selectedFlavor, setSelectedFlavor] = useState("all");
+  const [sortPopup, setSortPopup] = useState(false);
   const [filterPopup, setFilterPopup] = useState(false);
-  const [sortedData, setSortedData] = useState(shakeData);
+  const [isDeliveryFiltered, setIsDeliveryFiltered] = useState(false);
   const [sortType, setSortType] = useState("default");
-  const [cart, setCart] = useState({});
+  const [sortedData, setSortedData] = useState(shakeData);
 
+  // Filter & sort logic
   useEffect(() => {
     let filtered = [...shakeData];
 
-    // Delivery filter
-    if (isDeliveryFiltered) {
-      filtered = filtered.filter((s) => s.time.includes("20"));
-    }
+    if (isDeliveryFiltered) filtered = filtered.filter(s => s.time.includes("20"));
+    if (isEgglessOnly) filtered = filtered.filter(s => s.type === "eggless");
+    if (isEggOnly) filtered = filtered.filter(s => s.type === "egg");
+    if (selectedFlavor !== "all") filtered = filtered.filter(s => s.flavor === selectedFlavor);
 
-    // Eggless / Egg filters
-    if (isEgglessOnly) {
-      filtered = filtered.filter((s) => s.type === "eggless");
-    }
-    if (isEggOnly) {
-      filtered = filtered.filter((s) => s.type === "egg");
-    }
-
-    // Flavor filter
-    if (selectedFlavor !== "all") {
-      filtered = filtered.filter((s) => s.flavor === selectedFlavor);
-    }
-
-    // Sorting
     if (sortType === "rating") filtered.sort((a, b) => b.rating - a.rating);
     else if (sortType === "time") filtered.sort((a, b) => parseInt(a.time) - parseInt(b.time));
-    else if (sortType === "lowToHigh")
-      filtered.sort((a, b) => parseInt(a.price.slice(1)) - parseInt(b.price.slice(1)));
-    else if (sortType === "highToLow")
-      filtered.sort((a, b) => parseInt(b.price.slice(1)) - parseInt(a.price.slice(1)));
+    else if (sortType === "lowToHigh") filtered.sort((a, b) => parseInt(a.price.replace(/[^0-9]/g, "")) - parseInt(b.price.replace(/[^0-9]/g, "")));
+    else if (sortType === "highToLow") filtered.sort((a, b) => parseInt(b.price.replace(/[^0-9]/g, "")) - parseInt(a.price.replace(/[^0-9]/g, "")));
 
     setSortedData(filtered);
   }, [sortType, isDeliveryFiltered, isEgglessOnly, isEggOnly, selectedFlavor]);
 
-  const handleSort = (type) => {
-    setSortType(type);
-    setSortPopup(false);
-  };
-
-  const handleDeliveryFilter = () => {
-    setIsDeliveryFiltered(!isDeliveryFiltered);
-  };
-
-  const addToCart = (shakeId) => {
-    setCart((prev) => ({
-      ...prev,
-      [shakeId]: (prev[shakeId] || 0) + 1,
-    }));
-  };
-
-  const removeFromCart = (shakeId) => {
-    setCart((prev) => {
-      const updated = { ...prev };
-      if (updated[shakeId] > 1) {
-        updated[shakeId] -= 1;
-      } else {
-        delete updated[shakeId];
-      }
-      return updated;
-    });
-  };
-
   return (
-    <div className="shake-page">
+    <div className="shake-page" style={{ marginTop: "100px" }}>
       <h1 className="shake-title">Shakes</h1>
-      <p className="shake-subtitle">
-        Creamy, chilled, and absolutely delightful shakes just for you!
-      </p>
+      <p className="shake-subtitle">Delicious, creamy, and refreshing shakes just for you!</p>
 
       <div className="shake-controls">
-        <button className="control-btn" onClick={() => setFilterPopup(!filterPopup)}>
-          Filter
-        </button>
-        <button className="control-btn" onClick={() => setSortPopup(!sortPopup)}>
-          Sort By
-        </button>
-        <button
-          className={`control-btn ${isDeliveryFiltered ? "active" : ""}`}
-          onClick={handleDeliveryFilter}
-        >
+        <button className="control-btn" onClick={() => setFilterPopup(!filterPopup)}>Filter</button>
+        <button className="control-btn" onClick={() => setSortPopup(!sortPopup)}>Sort By</button>
+        <button className={`control-btn ${isDeliveryFiltered ? "active" : ""}`} onClick={() => setIsDeliveryFiltered(!isDeliveryFiltered)}>
           {isDeliveryFiltered ? "Show All" : "20 Mins Delivery"}
         </button>
       </div>
@@ -353,31 +303,31 @@ const Shake = () => {
       <h3 className="shake-count">{sortedData.length} Shake Items</h3>
 
       <div className="shake-grid">
-        {sortedData.map((shake) => (
-          <div key={shake.id} className="shake-card">
-            <img src={shake.image} alt={shake.name} className="shake-img" />
-            <div className="shake-price">ITEMS AT {shake.price}</div>
-            <h4 className="shake-name">{shake.name}</h4>
-            <p className="shake-info">
-              ⭐ {shake.rating} • {shake.time}
-              <br />
-              {shake.location}
-            </p>
+        {sortedData.map(shake => {
+          const key = `shake-${shake.id}`; // unique key for cart
+          const quantity = cartItems[key]?.quantity;
 
-            {/* Add to Cart Button */}
-            {cart[shake.id] ? (
-              <div className="qty-controls">
-                <button onClick={() => removeFromCart(shake.id)}>-</button>
-                <span>{cart[shake.id]}</span>
-                <button onClick={() => addToCart(shake.id)}>+</button>
-              </div>
-            ) : (
-              <button className="add-btn red" onClick={() => addToCart(shake.id)}>
-                Add +
-              </button>
-            )}
-          </div>
-        ))}
+          return (
+            <div key={key} className="shake-card">
+              <img src={shake.image} alt={shake.name} className="shake-img" />
+              <div className="shake-price">ITEMS AT {shake.price}</div>
+              <h4 className="shake-name">{shake.name}</h4>
+              <p className="shake-info">⭐ {shake.rating} • {shake.time} <br /> {shake.location}</p>
+
+              {quantity ? (
+                <div className="qty-controls">
+                  <button onClick={() => removeFromCart({ ...shake, category: 'shake' })}>-</button>
+                  <span>{quantity}</span>
+                  <button onClick={() => addToCart({ ...shake, category: 'shake' })}>+</button>
+                </div>
+              ) : (
+                <button className="add-btn" onClick={() => addToCart({ ...shake, category: 'shake' })}>
+                  Add +
+                </button>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

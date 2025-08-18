@@ -129,86 +129,91 @@
 
 // export default App;
 
-import React, { useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
-import FoodData from './Components/FoodData';
-import FoodItem from './Components/FoodItems';
-import Pizza from './Components/Pizza';
-import Burger from './Components/Burger';
-import Pasta from './Components/Pasta';
-import Momo from './Components/Momo';
-import Chinese from './Components/Chinese';
-import Cake from './Components/Cake';
-import Shake from './Components/Shake';
-import Sweets from './Components/Sweets';
-import Beverages from './Components/Beverages';
 
-const Home = () => {
-  const scrollRef = useRef();
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { CartProvider } from "./Components/CartContext";
 
-  const scroll = (direction) => {
-    const { current } = scrollRef;
-    if (direction === 'left') {
-      current.scrollLeft -= 300;
-    } else {
-      current.scrollLeft += 300;
-    }
-  };
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
+import Home from "./Components/Home";
+import AboutUs from "./Components/AboutUs";
+import ContactUs from "./Components/ContactUs";
+import Menu from "./Components/Menu";
+import Offers from "./Components/Offers";
 
-  return (
-    <>
-    <div className="container">
-      <h2 className="section-title">Popular Food</h2>
+import Pizza from "./Components/Pizza";
+import Burger from "./Components/Burger";
+import Pasta from "./Components/Pasta";
+import Momo from "./Components/Momo";
+import Chinese from "./Components/Chinese";
+import Cake from "./Components/Cake";
+import Shake from "./Components/Shake";
+import Sweets from "./Components/Sweets";
+import Beverages from "./Components/Beverages";
+import Cart from "./Components/Cart";
+import FoodDetail from "./Components/FoodItems";
 
-      <div className="scroll-wrapper">
-        <button className="arrow left" onClick={() => scroll('left')}>&lt;</button>
+// ✅ Auth Component (Login + Register + Forgot all inside it)
+import Login from "./Components/Login";
 
-        <div className="food-row" ref={scrollRef}>
-          {FoodData.map((food) => (
-            <FoodItem key={food.id} id={food.id} name={food.name} image={food.image} />
-          ))}
-        </div>
+import "./App.css";
 
-        <button className="arrow right" onClick={() => scroll('right')}>&gt;</button>
-      </div>
-    </div>
-    </>
-  );
-};
-
-const FoodDetail = () => {
-  const { foodId } = useParams();
-  const food = FoodData.find((item) => item.id === foodId);
-  if (!food) return <h2 style={{ padding: '20px' }}>Food item not found</h2>;
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>{food.name}</h2>
-      <img src={food.image} alt={food.name} style={{ width: '300px', borderRadius: '10px' }} />
-      <p style={{ marginTop: '15px' }}>{food.description}</p>
-    </div>
-  );
-};
+    <CartProvider>
+      <Router>
+        {/* ✅ Header/Footer only if logged in */}
+        {isLoggedIn && <Header />}
 
-const App = () => (
-  <Router>
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/food/:foodId" element={<FoodDetail />} />
-      <Route path="/pizza" element={<Pizza />} />
-      <Route path="/burger" element={<Burger />} />
-      <Route path="/pasta" element={<Pasta />} />
-      <Route path="/momo" element={<Momo />} />
-      <Route path="/chinese" element={<Chinese />} />
-      <Route path="/cake" element={<Cake />} />
-      <Route path="/shake" element={<Shake />} />  
-      <Route path="/sweets" element={<Sweets />} /> 
-      <Route path="/beverages" element={<Beverages />} /> 
-      <Route path="*" element={<h2>Page Not Found</h2>} />
-    </Routes>
-  </Router>
-);
+        <Routes>
+          {/* ✅ Auth Route */}
+          <Route
+            path="/login"
+            element={<Login onLoginSuccess={() => setIsLoggedIn(true)} />}
+          />
+
+          {/* ✅ Protected Routes */}
+          {isLoggedIn ? (
+            <>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<AboutUs />} />
+              <Route path="/contact" element={<ContactUs />} />
+              <Route path="/menu" element={<Menu />} />
+              <Route path="/offers" element={<Offers />} />
+
+              {/* Food Categories */}
+              <Route path="/pizza" element={<Pizza />} />
+              <Route path="/burger" element={<Burger />} />
+              <Route path="/pasta" element={<Pasta />} />
+              <Route path="/momo" element={<Momo />} />
+              <Route path="/chinese" element={<Chinese />} />
+              <Route path="/cake" element={<Cake />} />
+              <Route path="/shake" element={<Shake />} />
+              <Route path="/sweets" element={<Sweets />} />
+              <Route path="/beverages" element={<Beverages />} />
+
+              {/* Cart */}
+              <Route path="/cart" element={<Cart />} />
+
+              {/* Food Detail Page */}
+              <Route path="/food/:foodId" element={<FoodDetail />} />
+
+              {/* 404 Fallback */}
+              <Route path="*" element={<h2 style={{ padding: "20px" }}>Page Not Found</h2>} />
+            </>
+          ) : (
+            // agar login nahi hai → sab route forcefully /login par redirect
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          )}
+        </Routes>
+
+        {isLoggedIn && <Footer />}
+      </Router>
+    </CartProvider>
+  );
+}
 
 export default App;
-
-

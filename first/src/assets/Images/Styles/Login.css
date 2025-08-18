@@ -1,0 +1,156 @@
+/* Background with gradient */
+.login-wrapper {
+  min-height: 118vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 20px;
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+/* Glassmorphism Card */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 45px 35px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  animation: fadeIn 0.8s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.login-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+}
+
+/* Title */
+.login-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #222;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.login-title span {
+  color: #ff6600;
+}
+.login-subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 15px;
+}
+
+/* Form Group */
+.login-form .form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  outline: none;
+  font-size: 15px;
+  background: #fafafa;
+  transition: 0.3s;
+}
+
+.login-form input:focus {
+  border-color: #ff6600;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(255,102,0,0.2);
+}
+
+/* Options */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0 25px;
+  font-size: 14px;
+  color: #555;
+}
+
+.form-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #ff6600, #ff8533);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn:hover {
+  background: linear-gradient(135deg, #e65c00, #ff751a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(255,102,0,0.3);
+}
+
+/* Register Text */
+.register-text {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 14px;
+  color: #555;
+}
+
+.register-text .link {
+  font-weight: 600;
+}
+
+/* Links */
+.link {
+  color: #ff6600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.link:hover {
+  color: #e65c00;
+  text-decoration: underline;
+}
+
+/* Animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeIn 0.6s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

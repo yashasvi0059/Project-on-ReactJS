@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { CartContext } from './CartContext';
 import '../assets/Images/Styles/Pasta.css';
 import Pasta1 from '../assets/Images/Pasta1.png';
 import Pasta2 from '../assets/Images/Pasta2.png';
@@ -116,86 +116,43 @@ const pastaData = [
 ];
 
 const Pasta = () => {
+  const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+
   const [sortPopup, setSortPopup] = useState(false);
+  const [filterPopup, setFilterPopup] = useState(false);
   const [isVegOnly, setIsVegOnly] = useState(false);
   const [isNonVegOnly, setIsNonVegOnly] = useState(false);
-  const [filterPopup, setFilterPopup] = useState(false);
-  const [sortedData, setSortedData] = useState(pastaData);
-  const [sortType, setSortType] = useState("default");
   const [isDeliveryFiltered, setIsDeliveryFiltered] = useState(false);
-  const [cart, setCart] = useState({}); // cart me qty store karne ke liye
+  const [sortType, setSortType] = useState("default");
+  const [sortedData, setSortedData] = useState(pastaData);
+
+  const handleDeliveryFilter = () => setIsDeliveryFiltered(prev => !prev);
+  const handleSort = (type) => setSortType(type);
 
   useEffect(() => {
     let filtered = [...pastaData];
 
-    if (isDeliveryFiltered) {
-      filtered = filtered.filter((p) => p.time.includes("20"));
-    }
+    if (isDeliveryFiltered) filtered = filtered.filter(p => p.time.includes("20"));
+    if (isVegOnly) filtered = filtered.filter(p => p.type === "veg");
+    if (isNonVegOnly) filtered = filtered.filter(p => p.type === "nonveg");
 
-    if (isVegOnly) {
-      filtered = filtered.filter((p) => p.type === "veg");
-    }
-
-    if (isNonVegOnly) {
-      filtered = filtered.filter((p) => p.type === "nonveg");
-    }
-
-    if (sortType === "rating") filtered.sort((a, b) => b.rating - a.rating);
-    else if (sortType === "time") filtered.sort((a, b) => parseInt(a.time) - parseInt(b.time));
-    else if (sortType === "lowToHigh")
-      filtered.sort((a, b) => parseInt(a.price.slice(1)) - parseInt(b.price.slice(1)));
-    else if (sortType === "highToLow")
-      filtered.sort((a, b) => parseInt(b.price.slice(1)) - parseInt(a.price.slice(1)));
+    if (sortType === "rating") filtered.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+    else if (sortType === "time") filtered.sort((a, b) => parseInt(a.time.split("-")[0]) - parseInt(b.time.split("-")[0]));
+    else if (sortType === "lowToHigh") filtered.sort((a, b) => parseInt(a.price.replace(/[^0-9]/g, "")) - parseInt(b.price.replace(/[^0-9]/g, "")));
+    else if (sortType === "highToLow") filtered.sort((a, b) => parseInt(b.price.replace(/[^0-9]/g, "")) - parseInt(a.price.replace(/[^0-9]/g, "")));
 
     setSortedData(filtered);
   }, [sortType, isDeliveryFiltered, isVegOnly, isNonVegOnly]);
 
-  const handleSort = (type) => {
-    setSortType(type);
-    setSortPopup(false);
-  };
-
-  const handleDeliveryFilter = () => {
-    setIsDeliveryFiltered(!isDeliveryFiltered);
-  };
-
-  const addToCart = (pastaId) => {
-    setCart((prev) => ({
-      ...prev,
-      [pastaId]: (prev[pastaId] || 0) + 1,
-    }));
-  };
-
-  const removeFromCart = (pastaId) => {
-    setCart((prev) => {
-      const updated = { ...prev };
-      if (updated[pastaId] > 1) {
-        updated[pastaId] -= 1;
-      } else {
-        delete updated[pastaId];
-      }
-      return updated;
-    });
-  };
-
   return (
-    <div className="pasta-page">
+    <div className="pasta-page" style={{ marginTop: "100px" }}>
       <h1 className="pasta-title">Pasta</h1>
-      <p className="pasta-subtitle">
-        Creamy, saucy, and absolutely irresistible pastas just for you!
-      </p>
+      <p className="pasta-subtitle">Delicious, cheesy, and creamy pastas just for you!</p>
 
       <div className="pasta-controls">
-        <button className="control-btn" onClick={() => setFilterPopup(!filterPopup)}>
-          Filter
-        </button>
-        <button className="control-btn" onClick={() => setSortPopup(!sortPopup)}>
-          Sort By
-        </button>
-        <button
-          className={`control-btn ${isDeliveryFiltered ? "active" : ""}`}
-          onClick={handleDeliveryFilter}
-        >
+        <button className="control-btn" onClick={() => setFilterPopup(!filterPopup)}>Filter</button>
+        <button className="control-btn" onClick={() => setSortPopup(!sortPopup)}>Sort By</button>
+        <button className={`control-btn ${isDeliveryFiltered ? "active" : ""}`} onClick={handleDeliveryFilter}>
           {isDeliveryFiltered ? "Show All" : "20 Mins Delivery"}
         </button>
       </div>
@@ -322,31 +279,31 @@ const Pasta = () => {
       <h3 className="pasta-count">{sortedData.length} Pasta Items</h3>
 
       <div className="pasta-grid">
-        {sortedData.map((pasta) => (
-          <div key={pasta.id} className="pasta-card">
-            <img src={pasta.image} alt={pasta.name} className="pasta-img" />
-            <div className="pasta-price">ITEMS AT {pasta.price}</div>
-            <h4 className="pasta-name">{pasta.name}</h4>
-            <p className="pasta-info">
-              ⭐ {pasta.rating} • {pasta.time}
-              <br />
-              {pasta.location}
-            </p>
+        {sortedData.map(pasta => {
+          const key = `pasta-${pasta.id}`; // unique key for cart
+          const quantity = cartItems[key]?.quantity;
 
-            {/* Add to Cart Button */}
-            {cart[pasta.id] ? (
-              <div className="qty-controls">
-                <button onClick={() => removeFromCart(pasta.id)}>-</button>
-                <span>{cart[pasta.id]}</span>
-                <button onClick={() => addToCart(pasta.id)}>+</button>
-              </div>
-            ) : (
-              <button className="add-btn" onClick={() => addToCart(pasta.id)}>
-                Add +
-              </button>
-            )}
-          </div>
-        ))}
+          return (
+            <div key={key} className="pasta-card">
+              <img src={pasta.image} alt={pasta.name} className="pasta-img" />
+              <div className="pasta-price">ITEMS AT {pasta.price}</div>
+              <h4 className="pasta-name">{pasta.name}</h4>
+              <p className="pasta-info">⭐ {pasta.rating} • {pasta.time} <br /> {pasta.location}</p>
+
+              {quantity ? (
+                <div className="qty-controls">
+                  <button onClick={() => removeFromCart({ ...pasta, category: 'pasta' })}>-</button>
+                  <span>{quantity}</span>
+                  <button onClick={() => addToCart({ ...pasta, category: 'pasta' })}>+</button>
+                </div>
+              ) : (
+                <button className="add-btn" onClick={() => addToCart({ ...pasta, category: 'pasta' })}>
+                  Add +
+                </button>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -1,0 +1,274 @@
+/* Header ke neeche dikhane ke liye */
+.cart-page {
+  padding-top: 150px;   /* header+navbar height ke hisaab se adjust kar */
+  min-height: 100vh;
+  background: #f9f9f9;
+  font-family: 'Poppins', sans-serif;
+}
+
+.cart-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.cart-layout {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.cart-items-section {
+  flex: 2;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+.cart-item-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 15px;
+}
+
+.cart-item-info {
+  flex: 1;
+}
+
+.cart-item-name {
+  margin: 0 0 5px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.cart-item-price,
+.cart-item-total {
+  margin: 2px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qty-btn {
+  width: 30px;
+  height: 30px;
+  font-size: 1.2rem;
+  border: none;
+  background: #ff6b6b;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.qty-btn:hover {
+  background: #ff4c4c;
+}
+
+.qty {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.clear-btn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.clear-btn:hover {
+  background: #000;
+}
+
+.cart-summary {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 12px rgba(0,0,0,0.1);
+  height: fit-content;
+}
+
+.cart-summary h3 {
+  margin-top: 0;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.discount {
+  color: green;
+}
+
+.save-msg {
+  font-size: 0.85rem;
+  color: #27ae60;
+  margin-top: 5px;
+}
+
+.checkout-btn {
+  margin-top: 15px;
+  width: 100%;
+  padding: 12px;
+  background: #ff6b6b;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.checkout-btn:hover {
+  background: #ff4c4c;
+}
+
+.empty-cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  flex-direction: column;
+  color: #555;
+}
+
+.empty-cart h2 {
+  margin-bottom: 10px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-in-out;
+  z-index: 999;
+}
+
+.modal-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  text-align: center;
+  width: 400px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  animation: slideUp 0.4s ease-in-out;
+}
+
+.success-icon {
+  font-size: 60px;
+  color: #28a745;
+  margin-bottom: 15px;
+  animation: pop 0.4s ease-in-out;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.track-btn, .close-btn {
+  background: #ff4d4d;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.track-btn:hover, .close-btn:hover {
+  background: #e63946;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes slideUp {
+  from {transform: translateY(50px); opacity: 0;}
+  to {transform: translateY(0); opacity: 1;}
+}
+
+@keyframes pop {
+  0% {transform: scale(0.5);}
+  100% {transform: scale(1);}
+}
+
+.progress-bar {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 0;
+  position: relative;
+}
+
+.step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.step.active .circle {
+  background: #4caf50;
+  color: #fff;
+}
+
+.step p {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.status-msg {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+

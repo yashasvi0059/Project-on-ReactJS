@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { CartContext } from './CartContext';
 import '../assets/Images/Styles/Burger.css';
 import Burger1 from '../assets/Images/Burger1.png';
 import Burger2 from '../assets/Images/Burger2.png';
@@ -112,91 +112,47 @@ const burgerData = [
   time: "30-40 mins",
   location: "Burger Hut, Gariahat",
   image: Burger10
-},
+}
 ];
 
 const Burger = () => {
-  const { id } = useParams();
+  const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+
   const [sortPopup, setSortPopup] = useState(false);
+  const [filterPopup, setFilterPopup] = useState(false);
   const [isVegOnly, setIsVegOnly] = useState(false);
   const [isNonVegOnly, setIsNonVegOnly] = useState(false);
-  const [filterPopup, setFilterPopup] = useState(false);
-  const [sortedData, setSortedData] = useState(burgerData);
-  const [sortType, setSortType] = useState("default");
   const [isDeliveryFiltered, setIsDeliveryFiltered] = useState(false);
-  const [cart, setCart] = useState({}); // cart me qty store karne ke liye
+  const [sortType, setSortType] = useState("default");
+  const [sortedData, setSortedData] = useState(burgerData);
+
+  const handleDeliveryFilter = () => setIsDeliveryFiltered(prev => !prev);
+  const handleSort = (type) => setSortType(type);
 
   useEffect(() => {
     let filtered = [...burgerData];
 
-    if (isDeliveryFiltered) {
-      filtered = filtered.filter((b) => b.time.includes("20"));
-    }
+    if (isDeliveryFiltered) filtered = filtered.filter(b => b.time.includes("15") || b.time.includes("20"));
+    if (isVegOnly) filtered = filtered.filter(b => b.type === "veg");
+    if (isNonVegOnly) filtered = filtered.filter(b => b.type === "nonveg");
 
-    if (isVegOnly) {
-      filtered = filtered.filter((b) => b.type === "veg");
-    }
-
-    if (isNonVegOnly) {
-      filtered = filtered.filter((b) => b.type === "nonveg");
-    }
-
-    if (sortType === "rating") filtered.sort((a, b) => b.rating - a.rating);
-    else if (sortType === "time") filtered.sort((a, b) => parseInt(a.time) - parseInt(b.time));
-    else if (sortType === "lowToHigh")
-      filtered.sort((a, b) => parseInt(a.price.slice(1)) - parseInt(b.price.slice(1)));
-    else if (sortType === "highToLow")
-      filtered.sort((a, b) => parseInt(b.price.slice(1)) - parseInt(a.price.slice(1)));
+    if (sortType === "rating") filtered.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+    else if (sortType === "time") filtered.sort((a, b) => parseInt(a.time.split("-")[0]) - parseInt(b.time.split("-")[0]));
+    else if (sortType === "lowToHigh") filtered.sort((a, b) => parseInt(a.price.replace(/[^0-9]/g, "")) - parseInt(b.price.replace(/[^0-9]/g, "")));
+    else if (sortType === "highToLow") filtered.sort((a, b) => parseInt(b.price.replace(/[^0-9]/g, "")) - parseInt(a.price.replace(/[^0-9]/g, "")));
 
     setSortedData(filtered);
   }, [sortType, isDeliveryFiltered, isVegOnly, isNonVegOnly]);
 
-  const handleSort = (type) => {
-    setSortType(type);
-    setSortPopup(false);
-  };
-
-  const handleDeliveryFilter = () => {
-    setIsDeliveryFiltered(!isDeliveryFiltered);
-  };
-
-  const addToCart = (burgerId) => {
-    setCart((prev) => ({
-      ...prev,
-      [burgerId]: (prev[burgerId] || 0) + 1,
-    }));
-  };
-
-  const removeFromCart = (burgerId) => {
-    setCart((prev) => {
-      const updated = { ...prev };
-      if (updated[burgerId] > 1) {
-        updated[burgerId] -= 1;
-      } else {
-        delete updated[burgerId];
-      }
-      return updated;
-    });
-  };
-
   return (
-    <div className="burger-page">
-      <h1 className="burger-title">Burgers</h1>
-      <p className="burger-subtitle">
-        Juicy, cheesy, and absolutely irresistible burgers just for you!
-      </p>
+    <div className="pizza-page" style={{ marginTop: "100px" }}>
+      <h1 className="pizza-title">Burgers</h1>
+      <p className="pizza-subtitle">Juicy, tasty burgers to satisfy your cravings!</p>
 
-      <div className="burger-controls">
-        <button className="control-btn" onClick={() => setFilterPopup(!filterPopup)}>
-          Filter
-        </button>
-        <button className="control-btn" onClick={() => setSortPopup(!sortPopup)}>
-          Sort By
-        </button>
-        <button
-          className={`control-btn ${isDeliveryFiltered ? "active" : ""}`}
-          onClick={handleDeliveryFilter}
-        >
+      <div className="pizza-controls">
+        <button className="control-btn" onClick={() => setFilterPopup(!filterPopup)}>Filter</button>
+        <button className="control-btn" onClick={() => setSortPopup(!sortPopup)}>Sort By</button>
+        <button className={`control-btn ${isDeliveryFiltered ? "active" : ""}`} onClick={handleDeliveryFilter}>
           {isDeliveryFiltered ? "Show All" : "20 Mins Delivery"}
         </button>
       </div>
@@ -320,34 +276,34 @@ const Burger = () => {
         </div>
       )}
 
-      <h3 className="burger-count">{sortedData.length} Burger Items</h3>
+      <h3 className="pizza-count">{sortedData.length} Burger Items</h3>
 
-      <div className="burger-grid">
-        {sortedData.map((burger) => (
-          <div key={burger.id} className="burger-card">
-            <img src={burger.image} alt={burger.name} className="burger-img" />
-            <div className="burger-price">ITEMS AT {burger.price}</div>
-            <h4 className="burger-name">{burger.name}</h4>
-            <p className="burger-info">
-              ⭐ {burger.rating} • {burger.time}
-              <br />
-              {burger.location}
-            </p>
+      <div className="pizza-grid">
+        {sortedData.map(burger => {
+          const key = `burger-${burger.id}`;
+          const quantity = cartItems[key]?.quantity;
 
-            {/* Add to Cart Button */}
-            {cart[burger.id] ? (
-              <div className="qty-controls">
-                <button onClick={() => removeFromCart(burger.id)}>-</button>
-                <span>{cart[burger.id]}</span>
-                <button onClick={() => addToCart(burger.id)}>+</button>
-              </div>
-            ) : (
-              <button className="add-btn" onClick={() => addToCart(burger.id)}>
-                Add +
-              </button>
-            )}
-          </div>
-        ))}
+          return (
+            <div key={key} className="pizza-card">
+              <img src={burger.image} alt={burger.name} className="pizza-img" />
+              <div className="pizza-price">ITEMS AT {burger.price}</div>
+              <h4 className="pizza-name">{burger.name}</h4>
+              <p className="pizza-info">⭐ {burger.rating} • {burger.time} <br /> {burger.location}</p>
+
+              {quantity ? (
+                <div className="qty-controls">
+                  <button onClick={() => removeFromCart({ ...burger, category: 'burger' })}>-</button>
+                  <span>{quantity}</span>
+                  <button onClick={() => addToCart({ ...burger, category: 'burger' })}>+</button>
+                </div>
+              ) : (
+                <button className="add-btn" onClick={() => addToCart({ ...burger, category: 'burger' })}>
+                  Add +
+                </button>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

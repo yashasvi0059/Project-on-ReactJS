@@ -1,0 +1,80 @@
+/* Container */
+.menu-container {
+  text-align: center;
+}
+
+.menu-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #e63946;
+  margin-bottom: 8px;
+}
+
+.menu-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+/* Grid */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 25px;
+  padding: 0 20px;
+}
+
+/* Card */
+.menu-card {
+  background: linear-gradient(135deg, #fff, #f9f9f9);
+  border-radius: 18px;
+  padding: 30px 20px;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu-card:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #fff, #ffe6e6);
+}
+
+/* Icon */
+.menu-icon {
+  font-size: 2.8rem;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.menu-card:hover .menu-icon {
+  transform: scale(1.2) rotate(5deg);
+}
+
+/* Text */
+.menu-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+  margin: 0;
+}
+
+.menu-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.page-content {
+  margin-top: 120px;   /* header ki height ke hisaab se */
+  padding: 20px 60px;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  background: #fff;
+}

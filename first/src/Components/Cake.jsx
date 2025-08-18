@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { CartContext } from './CartContext';
 import '../assets/Images/Styles/Cake.css';
 import Cake1 from '../assets/Images/Cake1.png';
 import Cake2 from '../assets/Images/Cake2.png';
@@ -115,74 +116,43 @@ const cakeData = [
 ];
 
 const Cake = () => {
+  const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+
   const [sortPopup, setSortPopup] = useState(false);
   const [filterPopup, setFilterPopup] = useState(false);
   const [isEgglessOnly, setIsEgglessOnly] = useState(false);
   const [isEggBasedOnly, setIsEggBasedOnly] = useState(false);
   const [isDeliveryFiltered, setIsDeliveryFiltered] = useState(false);
-  const [sortedData, setSortedData] = useState(cakeData);
   const [sortType, setSortType] = useState("default");
-  const [cart, setCart] = useState({});
+  const [sortedData, setSortedData] = useState(cakeData);
+
+  const handleDeliveryFilter = () => setIsDeliveryFiltered(prev => !prev);
+  const handleSort = (type) => setSortType(type);
 
   useEffect(() => {
     let filtered = [...cakeData];
 
-    if (isDeliveryFiltered) {
-      filtered = filtered.filter((c) => c.time.includes("20"));
-    }
-    if (isEgglessOnly) {
-      filtered = filtered.filter((c) => c.type === "eggless");
-    }
-    if (isEggBasedOnly) {
-      filtered = filtered.filter((c) => c.type === "egg");
-    }
+    if (isDeliveryFiltered) filtered = filtered.filter(c => c.time.includes("20"));
+    if (isEgglessOnly) filtered = filtered.filter(c => c.type === "eggless");
+    if (isEggBasedOnly) filtered = filtered.filter(c => c.type === "egg");
 
     if (sortType === "rating") filtered.sort((a, b) => b.rating - a.rating);
     else if (sortType === "time") filtered.sort((a, b) => parseInt(a.time) - parseInt(b.time));
-    else if (sortType === "lowToHigh")
-      filtered.sort((a, b) => parseInt(a.price.slice(1)) - parseInt(b.price.slice(1)));
-    else if (sortType === "highToLow")
-      filtered.sort((a, b) => parseInt(b.price.slice(1)) - parseInt(a.price.slice(1)));
+    else if (sortType === "lowToHigh") filtered.sort((a, b) => parseInt(a.price.slice(1)) - parseInt(b.price.slice(1)));
+    else if (sortType === "highToLow") filtered.sort((a, b) => parseInt(b.price.slice(1)) - parseInt(a.price.slice(1)));
 
     setSortedData(filtered);
   }, [sortType, isDeliveryFiltered, isEgglessOnly, isEggBasedOnly]);
 
-  const handleSort = (type) => {
-    setSortType(type);
-    setSortPopup(false);
-  };
-
-  const addToCart = (cakeId) => {
-    setCart((prev) => ({
-      ...prev,
-      [cakeId]: (prev[cakeId] || 0) + 1,
-    }));
-  };
-
-  const removeFromCart = (cakeId) => {
-    setCart((prev) => {
-      const updated = { ...prev };
-      if (updated[cakeId] > 1) {
-        updated[cakeId] -= 1;
-      } else {
-        delete updated[cakeId];
-      }
-      return updated;
-    });
-  };
-
   return (
-    <div className="cake-page">
+    <div className="cake-page" style={{ marginTop: "100px" }}>
       <h1 className="cake-title">Cakes</h1>
-      <p className="cake-subtitle">Soft, delicious, and freshly baked cakes just for you!</p>
+      <p className="cake-subtitle">Delicious, soft, and tempting cakes just for you!</p>
 
       <div className="cake-controls">
         <button className="control-btn" onClick={() => setFilterPopup(!filterPopup)}>Filter</button>
         <button className="control-btn" onClick={() => setSortPopup(!sortPopup)}>Sort By</button>
-        <button
-          className={`control-btn ${isDeliveryFiltered ? "active" : ""}`}
-          onClick={() => setIsDeliveryFiltered(!isDeliveryFiltered)}
-        >
+        <button className={`control-btn ${isDeliveryFiltered ? "active" : ""}`} onClick={handleDeliveryFilter}>
           {isDeliveryFiltered ? "Show All" : "20 Mins Delivery"}
         </button>
       </div>
@@ -257,24 +227,29 @@ const Cake = () => {
       <h3 className="cake-count">{sortedData.length} Cake Items</h3>
 
       <div className="cake-grid">
-        {sortedData.map((cake) => (
-          <div key={cake.id} className="cake-card">
-            <img src={cake.image} alt={cake.name} className="cake-img" />
-            <div className="cake-price">ITEMS AT {cake.price}</div>
-            <h4 className="cake-name">{cake.name}</h4>
-            <p className="cake-info">⭐ {cake.rating} • {cake.time}<br />{cake.location}</p>
+        {sortedData.map(cake => {
+          const key = `cake-${cake.id}`;
+          const quantity = cartItems[key]?.quantity;
 
-            {cart[cake.id] ? (
-              <div className="qty-controls">
-                <button onClick={() => removeFromCart(cake.id)}>-</button>
-                <span>{cart[cake.id]}</span>
-                <button onClick={() => addToCart(cake.id)}>+</button>
-              </div>
-            ) : (
-              <button className="add-btn" onClick={() => addToCart(cake.id)}>Add +</button>
-            )}
-          </div>
-        ))}
+          return (
+            <div key={key} className="cake-card">
+              <img src={cake.image} alt={cake.name} className="cake-img" />
+              <div className="cake-price">ITEMS AT {cake.price}</div>
+              <h4 className="cake-name">{cake.name}</h4>
+              <p className="cake-info">⭐ {cake.rating} • {cake.time} <br /> {cake.location}</p>
+
+              {quantity ? (
+                <div className="qty-controls">
+                  <button onClick={() => removeFromCart({ ...cake, category: 'cake' })}>-</button>
+                  <span>{quantity}</span>
+                  <button onClick={() => addToCart({ ...cake, category: 'cake' })}>+</button>
+                </div>
+              ) : (
+                <button className="add-btn" onClick={() => addToCart({ ...cake, category: 'cake' })}>Add +</button>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { CartContext } from "./CartContext";
 import "../assets/Images/Styles/Sweets.css";
 import Sweets1 from "../assets/Images/Sweets1.png";
 import Sweets2 from "../assets/Images/Sweets2.png";
@@ -111,27 +112,23 @@ const sweetsData = [
 ];
 
 const Sweet = () => {
+  const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+
   const [sortPopup, setSortPopup] = useState(false);
-  const [isDeliveryFiltered, setIsDeliveryFiltered] = useState(false);
-  const [selectedType, setSelectedType] = useState("all");
-  const [lowSugarOnly, setLowSugarOnly] = useState(false); // Future use
   const [filterPopup, setFilterPopup] = useState(false);
-  const [sortedData, setSortedData] = useState(sweetsData);
+  const [selectedType, setSelectedType] = useState("all");
+  const [isDeliveryFiltered, setIsDeliveryFiltered] = useState(false);
   const [sortType, setSortType] = useState("default");
-  const [cart, setCart] = useState({});
+  const [sortedData, setSortedData] = useState(sweetsData);
 
   useEffect(() => {
     let filtered = [...sweetsData];
 
     // Delivery filter
-    if (isDeliveryFiltered) {
-      filtered = filtered.filter((s) => s.time.includes("20"));
-    }
+    if (isDeliveryFiltered) filtered = filtered.filter((s) => s.time.includes("20"));
 
-    // Sweet Type filter (eggless / egg)
-    if (selectedType !== "all") {
-      filtered = filtered.filter((s) => s.type === selectedType);
-    }
+    // Sweet Type filter
+    if (selectedType !== "all") filtered = filtered.filter((s) => s.type === selectedType);
 
     // Sorting
     if (sortType === "rating") filtered.sort((a, b) => b.rating - a.rating);
@@ -142,43 +139,15 @@ const Sweet = () => {
     setSortedData(filtered);
   }, [sortType, isDeliveryFiltered, selectedType]);
 
-  const handleSort = (type) => {
-    setSortType(type);
-    setSortPopup(false);
-  };
-
-  const handleDeliveryFilter = () => {
-    setIsDeliveryFiltered(!isDeliveryFiltered);
-  };
-
-  const addToCart = (sweetId) => {
-    setCart((prev) => ({
-      ...prev,
-      [sweetId]: (prev[sweetId] || 0) + 1,
-    }));
-  };
-
-  const removeFromCart = (sweetId) => {
-    setCart((prev) => {
-      const updated = { ...prev };
-      if (updated[sweetId] > 1) {
-        updated[sweetId] -= 1;
-      } else {
-        delete updated[sweetId];
-      }
-      return updated;
-    });
-  };
-
   return (
-    <div className="sweet-page">
+    <div className="sweets-page" style={{ marginTop: "100px" }}>
       <h1 className="sweet-title">Sweets</h1>
       <p className="sweet-subtitle">Delicious and mouth-watering sweets just for you!</p>
 
       <div className="sweet-controls">
         <button className="control-btn" onClick={() => setFilterPopup(!filterPopup)}>Filter</button>
         <button className="control-btn" onClick={() => setSortPopup(!sortPopup)}>Sort By</button>
-        <button className={`control-btn ${isDeliveryFiltered ? "active" : ""}`} onClick={handleDeliveryFilter}>
+        <button className={`control-btn ${isDeliveryFiltered ? "active" : ""}`} onClick={() => setIsDeliveryFiltered(prev => !prev)}>
           {isDeliveryFiltered ? "Show All" : "20 Mins Delivery"}
         </button>
       </div>
@@ -227,7 +196,7 @@ const Sweet = () => {
                       type="radio"
                       name="sort"
                       checked={sortType === sort.key}
-                      onChange={() => handleSort(sort.key)}
+                      onChange={() => setSortType(sort.key)}
                     />
                     {sort.label}
                   </label>
@@ -241,27 +210,35 @@ const Sweet = () => {
       <h3 className="sweet-count">{sortedData.length} Sweet Items</h3>
 
       <div className="sweet-grid">
-        {sortedData.map((sweet) => (
-          <div key={sweet.id} className="sweet-card">
-            <img src={sweet.image} alt={sweet.name} className="sweet-img" />
-            <div className="sweet-price">ITEMS AT {sweet.price}</div>
-            <h4 className="sweet-name">{sweet.name}</h4>
-            <p className="sweet-info">
-              ⭐ {sweet.rating} • {sweet.time}
-              <br />
-              {sweet.location}
-            </p>
-            {cart[sweet.id] ? (
-              <div className="qty-controls">
-                <button onClick={() => removeFromCart(sweet.id)}>-</button>
-                <span>{cart[sweet.id]}</span>
-                <button onClick={() => addToCart(sweet.id)}>+</button>
-              </div>
-            ) : (
-              <button className="add-btn red" onClick={() => addToCart(sweet.id)}>Add +</button>
-            )}
-          </div>
-        ))}
+        {sortedData.map((sweet) => {
+          const key = `sweets-${sweet.id}`;
+          const quantity = cartItems[key]?.quantity || 0;
+
+          return (
+            <div key={key} className="sweet-card">
+              <img src={sweet.image} alt={sweet.name} className="sweet-img" />
+              <div className="sweet-price">ITEMS AT {sweet.price}</div>
+              <h4 className="sweet-name">{sweet.name}</h4>
+              <p className="sweet-info">
+                ⭐ {sweet.rating} • {sweet.time}
+                <br />
+                {sweet.location}
+              </p>
+
+              {quantity > 0 ? (
+                <div className="qty-controls">
+                  <button onClick={() => removeFromCart({ ...sweet, category: 'sweets' })}>-</button>
+                  <span>{quantity}</span>
+                  <button onClick={() => addToCart({ ...sweet, category: 'sweets' })}>+</button>
+                </div>
+              ) : (
+                <button className="add-btn red" onClick={() => addToCart({ ...sweet, category: 'sweets' })}>
+                  Add +
+                </button>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

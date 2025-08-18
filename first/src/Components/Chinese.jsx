@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { CartContext } from './CartContext';
 import '../assets/Images/Styles/Chinese.css';
 import Chinese1 from '../assets/Images/Chinese1.png';
 import Chinese2 from '../assets/Images/Chinese2.png';
@@ -116,86 +116,43 @@ const chineseData = [
 ];
 
 const Chinese = () => {
+  const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+
   const [sortPopup, setSortPopup] = useState(false);
+  const [filterPopup, setFilterPopup] = useState(false);
   const [isVegOnly, setIsVegOnly] = useState(false);
   const [isNonVegOnly, setIsNonVegOnly] = useState(false);
-  const [filterPopup, setFilterPopup] = useState(false);
-  const [sortedData, setSortedData] = useState(chineseData);
-  const [sortType, setSortType] = useState("default");
   const [isDeliveryFiltered, setIsDeliveryFiltered] = useState(false);
-  const [cart, setCart] = useState({}); // cart me qty store karne ke liye
+  const [sortType, setSortType] = useState("default");
+  const [sortedData, setSortedData] = useState(chineseData);
+
+  const handleDeliveryFilter = () => setIsDeliveryFiltered(prev => !prev);
+  const handleSort = (type) => setSortType(type);
 
   useEffect(() => {
     let filtered = [...chineseData];
 
-    if (isDeliveryFiltered) {
-      filtered = filtered.filter((item) => item.time.includes("20"));
-    }
+    if (isDeliveryFiltered) filtered = filtered.filter(p => p.time.includes("20"));
+    if (isVegOnly) filtered = filtered.filter(p => p.type === "veg");
+    if (isNonVegOnly) filtered = filtered.filter(p => p.type === "nonveg");
 
-    if (isVegOnly) {
-      filtered = filtered.filter((item) => item.type === "veg");
-    }
-
-    if (isNonVegOnly) {
-      filtered = filtered.filter((item) => item.type === "nonveg");
-    }
-
-    if (sortType === "rating") filtered.sort((a, b) => b.rating - a.rating);
-    else if (sortType === "time") filtered.sort((a, b) => parseInt(a.time) - parseInt(b.time));
-    else if (sortType === "lowToHigh")
-      filtered.sort((a, b) => parseInt(a.price.slice(1)) - parseInt(b.price.slice(1)));
-    else if (sortType === "highToLow")
-      filtered.sort((a, b) => parseInt(b.price.slice(1)) - parseInt(a.price.slice(1)));
+    if (sortType === "rating") filtered.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+    else if (sortType === "time") filtered.sort((a, b) => parseInt(a.time.split("-")[0]) - parseInt(b.time.split("-")[0]));
+    else if (sortType === "lowToHigh") filtered.sort((a, b) => parseInt(a.price.replace(/[^0-9]/g, "")) - parseInt(b.price.replace(/[^0-9]/g, "")));
+    else if (sortType === "highToLow") filtered.sort((a, b) => parseInt(b.price.replace(/[^0-9]/g, "")) - parseInt(a.price.replace(/[^0-9]/g, "")));
 
     setSortedData(filtered);
   }, [sortType, isDeliveryFiltered, isVegOnly, isNonVegOnly]);
 
-  const handleSort = (type) => {
-    setSortType(type);
-    setSortPopup(false);
-  };
-
-  const handleDeliveryFilter = () => {
-    setIsDeliveryFiltered(!isDeliveryFiltered);
-  };
-
-  const addToCart = (itemId) => {
-    setCart((prev) => ({
-      ...prev,
-      [itemId]: (prev[itemId] || 0) + 1,
-    }));
-  };
-
-  const removeFromCart = (itemId) => {
-    setCart((prev) => {
-      const updated = { ...prev };
-      if (updated[itemId] > 1) {
-        updated[itemId] -= 1;
-      } else {
-        delete updated[itemId];
-      }
-      return updated;
-    });
-  };
-
   return (
-    <div className="chinese-page">
+    <div className="chinese-page" style={{ marginTop: "100px" }}>
       <h1 className="chinese-title">Chinese</h1>
-      <p className="chinese-subtitle">
-        Savory, spicy, and mouth-watering Chinese dishes just for you!
-      </p>
+      <p className="chinese-subtitle">Delicious, spicy, and mouth-watering Chinese dishes for you!</p>
 
       <div className="chinese-controls">
-        <button className="control-btn" onClick={() => setFilterPopup(!filterPopup)}>
-          Filter
-        </button>
-        <button className="control-btn" onClick={() => setSortPopup(!sortPopup)}>
-          Sort By
-        </button>
-        <button
-          className={`control-btn ${isDeliveryFiltered ? "active" : ""}`}
-          onClick={handleDeliveryFilter}
-        >
+        <button className="control-btn" onClick={() => setFilterPopup(!filterPopup)}>Filter</button>
+        <button className="control-btn" onClick={() => setSortPopup(!sortPopup)}>Sort By</button>
+        <button className={`control-btn ${isDeliveryFiltered ? "active" : ""}`} onClick={handleDeliveryFilter}>
           {isDeliveryFiltered ? "Show All" : "20 Mins Delivery"}
         </button>
       </div>
@@ -322,31 +279,29 @@ const Chinese = () => {
       <h3 className="chinese-count">{sortedData.length} Chinese Items</h3>
 
       <div className="chinese-grid">
-        {sortedData.map((item) => (
-          <div key={item.id} className="chinese-card">
-            <img src={item.image} alt={item.name} className="chinese-img" />
-            <div className="chinese-price">ITEMS AT {item.price}</div>
-            <h4 className="chinese-name">{item.name}</h4>
-            <p className="chinese-info">
-              ⭐ {item.rating} • {item.time}
-              <br />
-              {item.location}
-            </p>
+        {sortedData.map(item => {
+          const key = `chinese-${item.id}`;
+          const quantity = cartItems[key]?.quantity;
 
-            {/* Add to Cart Button */}
-            {cart[item.id] ? (
-              <div className="qty-controls">
-                <button onClick={() => removeFromCart(item.id)}>-</button>
-                <span>{cart[item.id]}</span>
-                <button onClick={() => addToCart(item.id)}>+</button>
-              </div>
-            ) : (
-              <button className="add-btn" onClick={() => addToCart(item.id)}>
-                Add +
-              </button>
-            )}
-          </div>
-        ))}
+          return (
+            <div key={key} className="chinese-card">
+              <img src={item.image} alt={item.name} className="chinese-img" />
+              <div className="chinese-price">ITEMS AT {item.price}</div>
+              <h4 className="chinese-name">{item.name}</h4>
+              <p className="chinese-info">⭐ {item.rating} • {item.time} <br /> {item.location}</p>
+
+              {quantity ? (
+                <div className="qty-controls">
+                  <button onClick={() => removeFromCart({ ...item, category: 'chinese' })}>-</button>
+                  <span>{quantity}</span>
+                  <button onClick={() => addToCart({ ...item, category: 'chinese' })}>+</button>
+                </div>
+              ) : (
+                <button className="add-btn" onClick={() => addToCart({ ...item, category: 'chinese' })}>Add +</button>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
