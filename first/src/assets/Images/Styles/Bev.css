@@ -1,30 +1,39 @@
-/* Beverages.css */
+/* 🍹 Beverages Section — perfectly matches Pizza & Burger style */
 
+/* Page Layout */
 .beverages-page {
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px 40px;
+  margin-top: 0 !important;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
+/* Title */
 .beverages-title {
-  font-size: 36px;
+  font-size: 38px;
   font-weight: bold;
-  margin-bottom: 5px;
   text-align: center;
+  color: #333;
+  margin-top: 20px;
+  margin-bottom: 5px;
 }
 
+/* Subtitle */
 .beverages-subtitle {
   font-size: 16px;
-  color: #555;
+  color: #666;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
+/* Control Buttons (Filter / Sort / Delivery) */
 .beverages-controls {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 12px;
   flex-wrap: wrap;
+  margin-bottom: 25px;
 }
 
 .control-btn {
@@ -32,8 +41,8 @@
   background-color: #f0c040;
   border: none;
   border-radius: 6px;
-  font-weight: 500;
   cursor: pointer;
+  font-weight: 500;
   transition: all 0.2s ease;
 }
 
@@ -43,104 +52,81 @@
 
 .control-btn.active {
   background-color: #d18f20;
-  color: white;
+  color: #fff;
 }
 
-.sort-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.popup-box {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  min-width: 250px;
-  max-width: 350px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-.popup-box h3, .popup-box h4 {
-  margin: 0 0 10px 0;
-}
-
-.popup-box ul {
-  list-style: none;
-  padding: 0;
-}
-
-.popup-box ul li {
-  margin-bottom: 8px;
-}
-
-.popup-box input[type="radio"], .popup-box input[type="checkbox"] {
-  margin-right: 8px;
-}
-
+/* Count */
 .beverages-count {
   text-align: center;
-  margin-bottom: 20px;
   font-size: 18px;
+  color: #444;
+  margin-bottom: 25px;
   font-weight: 500;
 }
 
+/* Grid */
 .beverages-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 25px;
+  justify-items: center;
 }
 
+/* Card */
 .beverages-card {
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 15px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  max-width: 250px;
 }
 
 .beverages-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
+/* Image */
 .beverages-img {
   width: 100%;
-  height: 150px;
-  object-fit: contain;
-  margin-bottom: 10px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
 }
 
+/* Text inside card */
 .beverages-price {
-  font-weight: bold;
+  font-weight: 600;
+  color: #e63946;
   margin-bottom: 5px;
+  font-size: 15px;
 }
 
 .beverages-name {
   font-size: 18px;
+  font-weight: 600;
+  color: #333;
   margin-bottom: 5px;
 }
 
 .beverages-info {
   font-size: 14px;
-  color: #666;
+  color: #777;
   margin-bottom: 10px;
+  line-height: 1.4;
 }
 
+/* Add button */
 .add-btn {
-  padding: 6px 12px;
   background-color: #f04e30;
-  color: white;
   border: none;
-  border-radius: 5px;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s ease;
@@ -150,6 +136,7 @@
   background-color: #d04428;
 }
 
+/* Quantity Controls */
 .qty-controls {
   display: flex;
   justify-content: center;
@@ -161,6 +148,7 @@
   width: 30px;
   height: 30px;
   background-color: #f0c040;
+  color: #fff;
   border: none;
   border-radius: 50%;
   font-size: 18px;
@@ -177,4 +165,84 @@
   min-width: 20px;
   display: inline-block;
   text-align: center;
+}
+
+/* Popup (Sort & Filter Overlay) */
+.sort-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.popup-box {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  width: 320px;
+  max-width: 90%;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+}
+
+.popup-box h3 {
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+}
+
+.popup-box h4 {
+  margin-top: 20px;
+  color: #444;
+}
+
+.popup-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.popup-box li {
+  margin-bottom: 10px;
+}
+
+.popup-box select {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .beverages-page {
+    padding: 15px;
+  }
+
+  .beverages-title {
+    font-size: 30px;
+  }
+
+  .beverages-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .beverages-img {
+    height: 130px;
+  }
+
+  .beverages-card {
+    max-width: 180px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 992px) {
+  .beverages-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }

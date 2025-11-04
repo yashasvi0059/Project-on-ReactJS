@@ -104,12 +104,12 @@ const AboutUs = () => {
           </div>
           <div className="team-member">
             <img src="https://i.pinimg.com/736x/cc/28/74/cc2874314d189b77792c7ccbbec7b296.jpg" alt="Chef Anushka" />
-            <h4>Chef Anushka</h4>
+            <h4>Chef Nandini</h4>
             <p>Pizza & Italian Cuisine</p>
           </div>
           <div className="team-member">
             <img src="https://i.pinimg.com/736x/b8/b4/d9/b8b4d9220922fffbd151103ef1c215f6.jpg" alt="Chef Nandini" />
-            <h4>Chef Ayueshi</h4>
+            <h4>Chef Shreya</h4>
             <p>Masters in Beverages</p>
           </div>
         </div>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
-import { FaUtensils, FaTags } from "react-icons/fa";
+import { FaUtensils, FaTags, FaMapMarkerAlt } from "react-icons/fa";
 import "../assets/Images/Styles/Header.css";
-import { CartContext } from "./CartContext"; // import your context
+import { CartContext } from "./CartContext";
 
 const Header = ({ onLoginClick }) => {
-  const { cartItems } = useContext(CartContext); // get cart items from context
+  const { cartItems } = useContext(CartContext);
   const itemsCount = Object.values(cartItems).reduce(
     (acc, item) => acc + item.quantity,
     0
@@ -13,6 +13,7 @@ const Header = ({ onLoginClick }) => {
 
   const [address, setAddress] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
   const autocompleteService = useRef(null);
 
   useEffect(() => {
@@ -47,20 +48,25 @@ const Header = ({ onLoginClick }) => {
     setSuggestions([]);
   };
 
+  const togglePopup = () => setShowPopup(!showPopup);
+  const closePopup = () => setShowPopup(false);
+
   return (
     <div>
-      {/* Top Header */}
-      <div className="header">
-        <div className="header-left">
+      {/* ====== TOP NAVBAR ====== */}
+      <div className="navbar">
+        {/* === 1. Logo Section === */}
+        <div className="nav-logo">
           <h2 className="logo">Ramaya</h2>
           <p className="tagline">Savor the Flavor</p>
         </div>
 
-        <div className="header-delivery">
+        {/* === 2. Delivery Section (Desktop) === */}
+        <div className="nav-delivery desktop-delivery">
           <h4>
             Delivery in <span>16 minutes</span>
           </h4>
-          <div style={{ position: "relative" }}>
+          <div className="address-box">
             <input
               type="text"
               value={address}
@@ -69,27 +75,12 @@ const Header = ({ onLoginClick }) => {
               className="address-input"
             />
             {suggestions.length > 0 && (
-              <ul
-                style={{
-                  position: "absolute",
-                  top: "40px",
-                  left: 0,
-                  right: 0,
-                  background: "white",
-                  border: "1px solid #ccc",
-                  listStyle: "none",
-                  padding: 0,
-                  margin: 0,
-                  zIndex: 1000,
-                  maxHeight: "200px",
-                  overflowY: "auto",
-                }}
-              >
+              <ul className="suggestions-box">
                 {suggestions.map((item) => (
                   <li
                     key={item.place_id}
-                    style={{ padding: "10px", cursor: "pointer" }}
                     onClick={() => handleSelect(item)}
+                    className="suggestion-item"
                   >
                     {item.description}
                   </li>
@@ -99,36 +90,61 @@ const Header = ({ onLoginClick }) => {
           </div>
         </div>
 
-        <div className="header-search">
+        {/* === 📍 Delivery Icon (Mobile) === */}
+        <div className="nav-delivery-icon" onClick={togglePopup}>
+          <FaMapMarkerAlt />
+        </div>
+
+        {/* === Popup for Mobile === */}
+        {showPopup && (
+          <div className="delivery-popup">
+            <div className="popup-content">
+              <h4>Enter Delivery Address</h4>
+              <input
+                type="text"
+                value={address}
+                onChange={handleChange}
+                placeholder="Enter your address"
+              />
+              {suggestions.length > 0 && (
+                <ul className="suggestions-box">
+                  {suggestions.map((item) => (
+                    <li
+                      key={item.place_id}
+                      onClick={() => handleSelect(item)}
+                      className="suggestion-item"
+                    >
+                      {item.description}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <button onClick={closePopup}>OK</button>
+            </div>
+          </div>
+        )}
+
+        {/* === 3. Search Section === */}
+        <div className="nav-search">
           <input type="text" placeholder="Search for ....." />
           <button className="search-btn">🔍</button>
         </div>
 
-        <div className="header-right">
-        <Link to="/login" className="login-btn">Login</Link>
+        {/* === 4. Login & Cart Section === */}
+        <div className="nav-right">
+          <Link to="/login" className="login-btn">
+            Login
+          </Link>
           <Link to="/cart" className="cart-btn" style={{ position: "relative" }}>
             🛒 My Cart
             {itemsCount > 0 && (
-              <span
-                style={{
-                  position: "absolute",
-                  top: "-8px",
-                  right: "-8px",
-                  background: "red",
-                  color: "white",
-                  borderRadius: "50%",
-                  padding: "2px 6px",
-                  fontSize: "12px",
-                }}
-              >
-                {itemsCount}
-              </span>
+              <span className="cart-badge">{itemsCount}</span>
             )}
           </Link>
         </div>
       </div>
 
-      {/* Bottom Slim Navbar */}
+      {/* ====== SUB NAVBAR ====== */}
       <div className="sub-navbar">
         <Link to="/">🏠 Home</Link>
         <Link to="/about">ℹ️ About Us</Link>

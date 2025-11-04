@@ -1,25 +1,54 @@
-/* Reset + Base */
-/* General */
-.home-page {
-  font-family: "Poppins", sans-serif;
-  color: #333;
+/* 🌟 ULTRA PROFESSIONAL HOME PAGE DESIGN (Final Fixed Version) */
+
+/* ===== Reset & Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Hero Section */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+  background-color: #ffffff;
+  color: #333;
+  scroll-behavior: smooth;
+}
+
+/* ===== HERO SECTION ===== */
 .home-hero {
-  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-              url("https://images.unsplash.com/photo-1504674900247-0877df9cc836") center/cover no-repeat;
-  height: 90vh;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: #fff;
+  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.65)),
+    url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80")
+      center/cover no-repeat;
+  background-attachment: fixed;
+  padding: 0 20px;
+  overflow: hidden;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  animation: fadeInUp 1.2s ease-in-out;
 }
 
 .hero-content h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
+  font-weight: 700;
   margin-bottom: 15px;
+  letter-spacing: 0.8px;
+  line-height: 1.2;
 }
 
 .hero-content h1 span {
@@ -27,81 +56,113 @@
 }
 
 .hero-content p {
-  font-size: 1.3rem;
-  margin-bottom: 25px;
+  font-size: 1.2rem;
+  opacity: 0.95;
+  margin-bottom: 30px;
 }
 
 .hero-btn {
+  display: inline-block;
   background: #e63946;
   color: #fff;
-  padding: 12px 25px;
-  border-radius: 30px;
+  padding: 14px 40px;
+  border-radius: 50px;
   text-decoration: none;
-  font-weight: bold;
-  transition: 0.3s ease;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
 .hero-btn:hover {
   background: #ffb703;
   color: #000;
+  transform: translateY(-3px);
 }
 
-/* Categories */
+/* Make sure text never hides when hovering */
+.home-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* ===== CATEGORY SECTION ===== */
 .home-categories {
+  padding: 100px 40px;
   text-align: center;
-  padding: 70px 20px;
+  background-color: #fff;
+}
+
+.section-subtitle {
+  padding: 20px;
 }
 
 .home-categories h2 {
-  font-size: 2rem;
-  margin-bottom: 40px;
+  font-size: 2.4rem;
   color: #e63946;
+  font-weight: 700;
+  margin-bottom: 60px;
 }
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-  gap: 25px;
-  max-width: 1000px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 35px;
+  max-width: 1200px;
   margin: auto;
 }
 
 .category-card {
   background: #fff;
-  border-radius: 15px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-  text-decoration: none;
-  color: inherit;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .category-card:hover {
   transform: translateY(-10px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
 }
 
 .category-card img {
   width: 100%;
-  height: 160px;
+  height: 200px;
   object-fit: cover;
 }
 
 .category-card h3 {
-  padding: 15px;
+  padding: 18px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
 }
 
-/* Offers */
+/* ===== OFFERS SECTION ===== */
 .home-offers {
   background: #f8f9fa;
-  padding: 70px 20px;
+  padding: 100px 30px;
   text-align: center;
+}
+
+.home-offers h2 {
+  color: #e63946;
+  font-size: 2.3rem;
+  margin-bottom: 50px;
 }
 
 .offers-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-  gap: 25px;
-  max-width: 900px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1100px;
   margin: auto;
 }
 
@@ -109,9 +170,8 @@
   background: #fff;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-  padding-bottom: 15px;
-  transition: transform 0.3s ease;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .offer-card:hover {
@@ -120,19 +180,26 @@
 
 .offer-card img {
   width: 100%;
-  height: 180px;
+  height: 200px;
   object-fit: cover;
+}
+
+.offer-card h4 {
+  padding: 18px;
+  font-size: 1.1rem;
+  color: #333;
 }
 
 .view-more-btn {
   display: inline-block;
-  margin-top: 25px;
-  padding: 10px 20px;
+  margin-top: 40px;
+  padding: 12px 35px;
   background: #e63946;
   color: #fff;
-  border-radius: 25px;
+  border-radius: 30px;
   text-decoration: none;
-  transition: 0.3s;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 .view-more-btn:hover {
@@ -140,63 +207,135 @@
   color: #000;
 }
 
-/* Testimonials */
+/* ===== TESTIMONIALS ===== */
 .home-testimonials {
-  padding: 70px 20px;
+  padding: 100px 30px;
   text-align: center;
+  background-color: #fff;
+}
+
+.home-testimonials h2 {
+  font-size: 2.3rem;
+  color: #e63946;
+  margin-bottom: 60px;
 }
 
 .testimonial-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-  gap: 25px;
-  max-width: 900px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
   margin: auto;
 }
 
 .testimonial-card {
   background: #fff;
-  border-radius: 15px;
-  padding: 25px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   font-style: italic;
+  transition: transform 0.3s ease;
 }
 
-/* Call To Action */
+.testimonial-card:hover {
+  transform: translateY(-5px);
+}
+
+/* ===== CTA SECTION ===== */
 .home-cta {
-  background: linear-gradient(to right, darksalmon, #ffb6c1);
+  background: linear-gradient(to right, #ffb703, #e63946);
   color: #fff;
   text-align: center;
-  padding: 80px 20px;
+  padding: 120px 20px;
 }
 
 .home-cta h2 {
-  font-size: 2rem;
-  margin-bottom: 15px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 
 .cta-btn {
   display: inline-block;
-  margin-top: 20px;
-  padding: 12px 25px;
-  background: #e63946;
-  color: #fff;
-  border-radius: 30px;
+  margin-top: 25px;
+  padding: 14px 35px;
+  background: #fff;
+  color: #e63946;
+  border-radius: 50px;
   text-decoration: none;
   font-weight: bold;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
 .cta-btn:hover {
-  background: #fff;
-  color: #e63946;
+  background: #000;
+  color: #fff;
 }
 
-.page-container {
-  margin-top: 120px;   /* Header + Sub-navbar ki height ke hisaab se */
-  padding: 20px 60px;
-  position: relative;
-  z-index: 1;
-  min-height: 100vh;
-  background: #fff;
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+  .home-hero {
+    min-height: 85vh;
+    background-position: center;
+    background-attachment: scroll;
+    padding: 0 15px;
+  }
+
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .home-categories,
+  .home-offers,
+  .home-testimonials,
+  .home-cta {
+    padding: 60px 15px;
+  }
+
+  .category-card img,
+  .offer-card img {
+    height: 160px;
+  }
+
+  .hero-btn {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+  }
+}
+
+/* 💻 Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .home-hero {
+    background-attachment: scroll;
+  }
+
+  .hero-content h1 {
+    font-size: 2.8rem;
+  }
+
+  .category-card img {
+    height: 180px;
+  }
+
+  .offer-card img {
+    height: 170px;
+  }
 }

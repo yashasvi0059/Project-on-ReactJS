@@ -83,7 +83,7 @@ const Cart = () => {
       <div className="cart-container">
         {!tracking ? (
           <>
-            <h2>🛍️ My Cart</h2>
+            <h2 className="cart-title">🛍️ My Cart</h2>
 
             <div className="cart-layout">
               {/* Cart Items Section */}

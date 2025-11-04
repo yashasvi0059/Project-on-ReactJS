@@ -1,187 +1,325 @@
-/* ===== Reset & Base ===== */
-* {
+/* ===== MAIN NAVBAR ===== */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #672329; /* warm foody orange */
+  color: white;
+  padding: 12px 20px;
+  gap: 15px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  box-shadow: 0 2px 6px rgba(255, 87, 34, 0.3);
+}
+
+.navbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* === 1. Logo === */
+.nav-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.logo {
+  font-size: 32px;
+  font-weight: bold;
+  color:beige; /* light cream */
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+}
+.tagline {
+  font-size: 12px;
+  color: #ffe0b2; /* soft beige */
+  margin: 0;
 }
 
-body {
-  font-family: "Poppins", sans-serif;
-  background: #fdfdfd;
-  color: #333;
+/* === 2. Delivery Section === */
+.nav-delivery {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 110px;
+}
+.nav-delivery h4 {
+  font-size: 14px;
+  color: #fff3e0;
+  margin: 0;
+}
+.nav-delivery span {
+  color: #fff176; /* light yellow highlight */
+  font-weight: bold;
+}
+.address-input {
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: none;
+  font-size: 12px;
+  outline: none;
 }
 
-/* ===== Main Header ===== */
-.header {
+/* Hide icon in desktop */
+.nav-delivery-icon {
+  display: none;
+  margin-left: auto;
+  color: #fff8e1;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Popup box */
+.delivery-popup {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background: #ffffff;
+  height: 100%;
+  background: rgba(255, 112, 67, 0.85);
   display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  padding: 14px 60px;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.05);
-  z-index: 1000;
-  transition: all 0.3s ease;
+  z-index: 2000;
 }
 
-/* Logo + Tagline */
-.header-left .logo {
-  font-size: 1.9rem;
-  font-weight: 700;
-  color: #e23744; /* Zomato red */
-  letter-spacing: 1px;
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 350px;
+  text-align: center;
 }
 
-.header-left .tagline {
-  font-size: 0.85rem;
-  color: #777;
-  margin-top: -4px;
-  font-weight: 400;
+.popup-content h4 {
+  margin-bottom: 10px;
+  color: #ff7043;
 }
 
-/* Delivery Info */
-.header-delivery {
-  margin-left: 40px;
-}
-
-.header-delivery h4 {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #444;
-}
-
-.header-delivery h4 span {
-  color: #e23744;
-  font-weight: 600;
-}
-
-.address-input {
-  margin-top: 6px;
-  padding: 10px 14px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  width: 240px;
-  font-size: 0.9rem;
-  outline: none;
-  transition: border 0.2s ease;
-}
-
-.address-input:focus {
-  border: 1px solid #e23744;
-  box-shadow: 0 0 0 2px rgba(226,55,68,0.15);
-}
-
-/* Search Bar */
-.header-search {
-  display: flex;
-  align-items: center;
-  margin-left: 30px;
-}
-
-.header-search input {
-  padding: 10px 14px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px 0 0 8px;
-  width: 260px;
-  font-size: 0.9rem;
-  outline: none;
-  transition: border 0.2s ease;
-}
-
-.header-search input:focus {
-  border: 1px solid #e23744;
-  box-shadow: 0 0 0 2px rgba(226,55,68,0.15);
-}
-
-.search-btn {
-  padding: 10px 16px;
-  background: #e23744;
-  color: white;
-  border: none;
-  border-radius: 0 8px 8px 0;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s ease;
-}
-
-.search-btn:hover {
-  background: #c22030;
-}
-
-/* Right Side */
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-left: auto;
-}
-
-.login-btn {
-  padding: 8px 18px;
-  border: 1px solid #e23744;
-  border-radius: 8px;
-  background: transparent;
-  color: #e23744;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.login-btn:hover {
-  background: #e23744;
-  color: #fff;
-}
-
-.cart-btn {
-  padding: 8px 18px;
-  background: #e23744;
-  color: #fff;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background 0.3s ease;
-}
-
-.cart-btn:hover {
-  background: #c22030;
-}
-
-/* ===== Sub Navbar ===== */
-.sub-navbar {
-  position: fixed;
-  top: 76px; /* header ki height ke baad */
-  left: 0;
+.popup-content input {
   width: 100%;
-  background: #fafafa;
-  padding: 12px 60px;
-  display: flex;
-  gap: 30px;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-  z-index: 999;
+  padding: 8px;
+  border: 1px solid #ffab91;
+  border-radius: 6px;
+  margin-bottom: 10px;
 }
 
-.sub-navbar a {
-  text-decoration: none;
-  color: #444;
-  font-size: 0.95rem;
-  font-weight: 500;
+.popup-content button {
+  background-color: #ff7043;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Suggestions dropdown in popup */
+.suggestions-box {
+  list-style: none;
+  padding: 0;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+.suggestion-item {
+  padding: 8px;
+  cursor: pointer;
+}
+.suggestion-item:hover {
+  background-color: #fff3e0;
+}
+
+/* Mobile view */
+@media (max-width: 600px) {
+  .desktop-delivery {
+    display: none;
+  }
+  .nav-delivery-icon {
+    display: block;
+  }
+}
+
+/* === 3. Search Bar === */
+.nav-search {
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: color 0.2s ease;
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-grow: 1;
+  max-width: 700px;
+  height: 40px;
+}
+.nav-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+.search-btn {
+  background-color: #ffab40;
+  border: none;
+  height: 100%;
+  width: 45px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.search-btn:hover {
+  background-color: #ff9100;
 }
 
+/* === 4. Right (Login + Cart) === */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.login-btn,
+.cart-btn {
+  background-color: #ffcc80;
+  color: #5d4037;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.3s ease;
+  white-space: nowrap;
+}
+.login-btn:hover,
+.cart-btn:hover {
+  background-color: #ffb74d;
+  color: white;
+}
+
+/* === Cart Badge === */
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #d84315;
+  color: white;
+  border-radius: 50%;
+  padding: 3px 6px;
+  font-size: 10px;
+}
+
+/* === SUB NAVBAR === */
+.sub-navbar {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  background-color: #ffe0b2;
+  padding: 10px 0;
+  flex-wrap: wrap;
+}
+.sub-navbar a {
+  color: #e64a19;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+}
 .sub-navbar a:hover {
-  color: #e23744;
+  color: #bf360c;
 }
 
-/* ===== Body Offset ===== */
-.page-content {
-  margin-top: 130px; /* header + sub-navbar ke liye space */
-  padding: 20px 60px;
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+@media (max-width: 1200px) {
+  .navbar {
+    padding: 10px 15px;
+  }
+  .nav-search {
+    max-width: 600px;
+  }
+}
+@media (max-width: 900px) {
+  .logo {
+    font-size: 26px;
+  }
+  .tagline {
+    font-size: 10px;
+  }
+  .nav-delivery h4 {
+    font-size: 12px;
+  }
+  .address-input {
+    font-size: 10px;
+    padding: 4px;
+  }
+  .nav-search {
+    height: 35px;
+    max-width: 400px;
+  }
+  .nav-right a {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+  .sub-navbar {
+    gap: 10px;
+    padding: 8px 0;
+  }
+  .sub-navbar a {
+    font-size: 13px;
+  }
+}
+@media (max-width: 600px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .logo {
+    font-size: 22px;
+  }
+  .tagline {
+    font-size: 8px;
+  }
+  .nav-delivery {
+    display: none;
+  }
+  .nav-search {
+    order: 3;
+    width: 100%;
+    max-width: none;
+    height: 34px;
+  }
+  .nav-right {
+    order: 2;
+    gap: 8px;
+  }
+  .login-btn,
+  .cart-btn {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+  .sub-navbar {
+    gap: 6px;
+    padding: 6px 0;
+  }
+  .sub-navbar a {
+    font-size: 12px;
+  }
+}
+@media (max-width: 420px) {
+  .logo {
+    font-size: 18px;
+  }
+  .nav-search {
+    height: 30px;
+  }
+  .sub-navbar {
+    gap: 4px;
+    padding: 5px 0;
+  }
+  .sub-navbar a {
+    font-size: 10.5px;
+  }
 }
 

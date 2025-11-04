@@ -234,67 +234,31 @@ const Shake = () => {
         </div>
       )}
 
-      {/* Sort Popup */}
+      {/* ✅ Updated Sort Popup — stays open until clicked outside */}
       {sortPopup && (
         <div className="sort-overlay" onClick={() => setSortPopup(false)}>
           <div className="popup-box" onClick={(e) => e.stopPropagation()}>
             <h3>SORT BY</h3>
             <ul>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="sort"
-                    checked={sortType === "default"}
-                    onClick={() => handleSort("default")}
-                  />
-                  Relevance (Default)
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="sort"
-                    checked={sortType === "time"}
-                    onClick={() => handleSort("time")}
-                  />
-                  Delivery Time
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="sort"
-                    checked={sortType === "rating"}
-                    onClick={() => handleSort("rating")}
-                  />
-                  Rating
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="sort"
-                    checked={sortType === "lowToHigh"}
-                    onClick={() => handleSort("lowToHigh")}
-                  />
-                  Cost: Low to High
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="sort"
-                    checked={sortType === "highToLow"}
-                    onClick={() => handleSort("highToLow")}
-                  />
-                  Cost: High to Low
-                </label>
-              </li>
+              {[
+                { key: "default", label: "Relevance (Default)" },
+                { key: "time", label: "Delivery Time" },
+                { key: "rating", label: "Rating" },
+                { key: "lowToHigh", label: "Cost: Low to High" },
+                { key: "highToLow", label: "Cost: High to Low" },
+              ].map((sort) => (
+                <li key={sort.key}>
+                  <label>
+                    <input
+                      type="radio"
+                      name="sort"
+                      checked={sortType === sort.key}
+                      onChange={() => setSortType(sort.key)}
+                    />
+                    {sort.label}
+                  </label>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -304,7 +268,7 @@ const Shake = () => {
 
       <div className="shake-grid">
         {sortedData.map(shake => {
-          const key = `shake-${shake.id}`; // unique key for cart
+          const key = `shake-${shake.id}`;
           const quantity = cartItems[key]?.quantity;
 
           return (

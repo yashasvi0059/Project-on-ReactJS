@@ -1,24 +1,32 @@
-/* Chinese.css */
+/* ✅ Chinese.css — fixed top gap & improved spacing */
 
 .chinese-page {
-  padding: 20px;
+  padding: 10px 40px; /* reduced top padding */
+  margin-top: 0 !important; /* ensures no unwanted top space */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
+/* Title Section */
 .chinese-title {
   font-size: 36px;
   font-weight: bold;
+  margin-top: 0 !important; /* 🔥 removes default heading gap */
   margin-bottom: 5px;
   text-align: center;
+  color: #222;
 }
 
 .chinese-subtitle {
   font-size: 16px;
   color: #555;
   text-align: center;
+  margin-top: 0;
   margin-bottom: 20px;
 }
 
+/* Controls (Filter / Sort / Delivery) */
 .chinese-controls {
   display: flex;
   justify-content: center;
@@ -46,45 +54,7 @@
   color: white;
 }
 
-.sort-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.popup-box {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  min-width: 250px;
-  max-width: 350px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-.popup-box h3, .popup-box h4 {
-  margin: 0 0 10px 0;
-}
-
-.popup-box ul {
-  list-style: none;
-  padding: 0;
-}
-
-.popup-box ul li {
-  margin-bottom: 8px;
-}
-
-.popup-box input[type="radio"], .popup-box input[type="checkbox"] {
-  margin-right: 8px;
-}
-
+/* Chinese Count */
 .chinese-count {
   text-align: center;
   margin-bottom: 20px;
@@ -92,41 +62,52 @@
   font-weight: 500;
 }
 
+/* Chinese Grid */
 .chinese-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px;
+  justify-items: center;
 }
 
+/* Chinese Card */
 .chinese-card {
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 15px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  max-width: 250px;
 }
 
 .chinese-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transform: translateY(-6px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
 
+/* Image */
 .chinese-img {
   width: 100%;
-  height: 150px;
-  object-fit: contain;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
   margin-bottom: 10px;
 }
 
+/* Text */
 .chinese-price {
   font-weight: bold;
-  margin-bottom: 5px;
+  color: #d9534f;
+  margin-bottom: 6px;
 }
 
 .chinese-name {
   font-size: 18px;
   margin-bottom: 5px;
+  font-weight: 600;
+  color: #222;
 }
 
 .chinese-info {
@@ -135,12 +116,13 @@
   margin-bottom: 10px;
 }
 
+/* Add Button */
 .add-btn {
-  padding: 6px 12px;
+  padding: 8px 14px;
   background-color: #f04e30;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s ease;
@@ -150,6 +132,7 @@
   background-color: #d04428;
 }
 
+/* Quantity Controls */
 .qty-controls {
   display: flex;
   justify-content: center;
@@ -177,4 +160,51 @@
   min-width: 20px;
   display: inline-block;
   text-align: center;
+}
+
+/* ✅ Responsive Design */
+
+/* Mobile */
+@media (max-width: 600px) {
+  .chinese-page {
+    padding: 10px;
+  }
+
+  .chinese-title {
+    font-size: 28px;
+  }
+
+  .chinese-img {
+    height: 130px;
+  }
+
+  .chinese-card {
+    max-width: 180px;
+  }
+}
+
+/* Tablets */
+@media (min-width: 601px) and (max-width: 992px) {
+  .chinese-page {
+    padding: 20px;
+  }
+
+  .chinese-title {
+    font-size: 32px;
+  }
+
+  .chinese-img {
+    height: 140px;
+  }
+
+  .chinese-card {
+    max-width: 210px;
+  }
+}
+
+/* Large screens */
+@media (min-width: 993px) {
+  .chinese-page {
+    padding-top: 10px !important; /* keeps section close to navbar */
+  }
 }

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";   // ✅ added
 import "../assets/Images/Styles/Login.css";
 
 export default function Login({ onLoginSuccess }) {
-  const [mode, setMode] = useState("login"); // "login" | "register" | "forgot"
+  const [mode, setMode] = useState("login"); // "login" | "Sign In" | "forgot"
   const navigate = useNavigate();             // ✅ hook for navigation
 
   // login form states
@@ -30,11 +30,11 @@ export default function Login({ onLoginSuccess }) {
     }
   };
 
-  // register handler
+  // Sign In handler
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-  const handleRegister = (e) => {
+  const handleSignIn = (e) => {
     e.preventDefault();
     if (Object.values(form).every(v => v)) {
       alert("✅ Registration Successful!");
@@ -95,19 +95,19 @@ export default function Login({ onLoginSuccess }) {
               <button type="submit" className="btn">Login</button>
             </form>
 
-            <p className="register-text">
+            <p className="SignIn-text">
               New here?{" "}
-              <span className="link" onClick={() => setMode("register")}>
+              <span className="link" onClick={() => setMode("SignIn")}>
                 Create an account
               </span>
             </p>
           </>
         )}
 
-        {mode === "register" && (
+        {mode === "SignIn" && (
           <>
-            <h2 className="login-title">Register</h2>
-            <form onSubmit={handleRegister} className="login-form">
+            <h2 className="login-title">Sign In</h2>
+            <form onSubmit={handleSignIn} className="login-form">
               <input name="firstName" placeholder="First Name" value={form.firstName} onChange={handleChange} />
               <input name="lastName" placeholder="Last Name" value={form.lastName} onChange={handleChange} />
               <input name="address" placeholder="Full Address" value={form.address} onChange={handleChange} />
@@ -115,7 +115,7 @@ export default function Login({ onLoginSuccess }) {
               <input name="pincode" placeholder="Pincode" value={form.pincode} onChange={handleChange} />
               <input name="phone" placeholder="Phone Number" value={form.phone} onChange={handleChange} />
               <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} />
-              <button type="submit" className="btn">Register</button>
+              <button type="submit" className="btn">Sign In</button>
             </form>
             <p className="link" onClick={() => setMode("login")}>Back to Login</p>
           </>

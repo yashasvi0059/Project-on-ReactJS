@@ -83,3 +83,63 @@
 .arrow.right {
   right: -10px;
 }
+
+/* 🌐 RESPONSIVE DESIGN SETTINGS */
+
+/* ✅ Mobile (Phones) */
+@media (max-width: 600px) {
+  body {
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  .container, .login-card, .header, .hero-section, .search-bar {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  h1, h2, h3, p {
+    text-align: center;
+  }
+
+  input, button {
+    width: 100%;
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* ✅ Tablets */
+@media (min-width: 601px) and (max-width: 992px) {
+  .container {
+    width: 95%;
+    margin: auto;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  .login-card {
+    max-width: 80%;
+  }
+}
+
+/* ✅ Laptops / Desktops */
+@media (min-width: 993px) {
+  .container {
+    max-width: 1200px;
+    margin: auto;
+  }
+}

@@ -1,166 +1,202 @@
-/* General */
-.about-page {
-  font-family: "Poppins", sans-serif;
-  color: #333;
+/* ====== GLOBAL PAGE SETTINGS ====== */
+.page-content.about-page {
+  font-family: 'Poppins', sans-serif;
+  color: #222;
   line-height: 1.6;
+  background-color: #fff;
+  overflow-x: hidden;
+  margin-top: 0%;
 }
 
-/* Hero */
+/* ====== HERO SECTION ====== */
 .about-hero {
-  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-              url("https://images.unsplash.com/photo-1504674900247-0877df9cc836") center/cover no-repeat;
-  color: #fff;
   text-align: center;
-  padding: 100px 20px;
+  padding: 80px 20px 50px;
+  background: linear-gradient(to right, #febd69, #f3a847);
+  color: #131921;
 }
-
 .about-hero h1 {
   font-size: 3rem;
-  margin-bottom: 10px;
+  font-weight: bold;
 }
-
 .about-hero h1 span {
-  color: #ffb703;
+  color: #fff;
 }
-
 .about-hero p {
   font-size: 1.2rem;
-  opacity: 0.9;
+  margin-top: 10px;
+  font-weight: 500;
 }
 
-/* Story Section */
+/* ====== STORY SECTION ====== */
 .about-story {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  max-width: 1100px;
-  margin: 80px auto;
-  padding: 0 20px;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 60px 80px;
+  flex-wrap: wrap;
 }
-
+.story-text {
+  flex: 1 1 500px;
+  font-size: 1rem;
+}
 .story-text h2 {
   font-size: 2rem;
+  color: #f3a847;
   margin-bottom: 20px;
-  color: #e63946;
 }
-
 .story-text p {
   margin-bottom: 15px;
 }
-
+.story-text ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+.story-text li {
+  list-style-type: "🍽️ ";
+  margin-bottom: 6px;
+}
 .story-text .highlight {
-  color: #ffb703;
+  color: #f3a847;
   font-weight: bold;
 }
-
+.story-image {
+  flex: 1 1 400px;
+  text-align: center;
+}
 .story-image img {
   width: 100%;
-  border-radius: 15px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
+  max-width: 450px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-.story-image img:hover {
-  transform: scale(1.05);
-}
-
-@media (max-width: 900px) {
-  .about-story {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-}
-
-/* Mission Section */
+/* ====== MISSION SECTION ====== */
 .about-mission {
-  background: #f8f9fa;
-  padding: 60px 20px;
   text-align: center;
-}
-
-.about-mission h2 {
-  margin-bottom: 40px;
-  font-size: 2rem;
-}
-
-.mission-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-  gap: 20px;
-  max-width: 1000px;
-  margin: auto;
-}
-
-.card {
-  background: #fff;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-10px);
-}
-
-/* Team Section */
-.about-team {
+  background-color: #f7f7f7;
   padding: 70px 20px;
+}
+.about-mission h2 {
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  color: #131921;
+}
+.mission-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+.mission-cards .card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 25px;
+  width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.mission-cards .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+.mission-cards .card h3 {
+  color: #f3a847;
+  margin-bottom: 10px;
+}
+
+/* ====== TEAM SECTION ====== */
+.about-team {
+  padding: 80px 20px;
   text-align: center;
 }
-
 .about-team h2 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 40px;
-  color: #e63946;
+  color: #131921;
 }
-
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 30px;
-  max-width: 1000px;
-  margin: auto;
+  justify-items: center;
 }
-
 .team-member {
   background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
+  width: 240px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .team-member:hover {
-  transform: translateY(-8px);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
-
 .team-member img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin-bottom: 15px;
+  width: 100%;
+  height: 220px;
   object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.team-member h4 {
+  font-size: 1.1rem;
+  color: #f3a847;
+}
+.team-member p {
+  font-size: 0.9rem;
+  color: #444;
 }
 
-/* Quote Section */
+/* ====== QUOTE SECTION ====== */
 .about-quote {
-  background: linear-gradient(to right, burlywood, lavender);;
-  padding: 50px 20px;
-  text-align: center;
-  font-size: 1.3rem;
-  font-weight: bold;
+  background-color: #232f3e;
   color: #fff;
-  border-top: 5px solid black;
+  text-align: center;
+  padding: 60px 20px;
+  font-style: italic;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
 }
 
-/* ye sabhi pages ke liye use hoga: About, Contact, Menu, Offers */
-.page-content {
-  margin-top: 120px;   /* Header + Sub-navbar ki height ke hisaab se */
-  padding: 20px 60px;
-  position: relative;
-  z-index: 1;
-  min-height: 100vh;
-  background: #fff;
+/* ====== RESPONSIVE BREAKPOINTS ====== */
+
+/* === TABLETS === */
+@media (max-width: 900px) {
+  .about-hero h1 { font-size: 2.5rem; }
+  .about-hero p { font-size: 1rem; }
+  .about-story { padding: 40px 40px; gap: 25px; }
+  .story-text h2 { font-size: 1.8rem; }
+  .story-image img { max-width: 380px; }
+  .mission-cards .card { width: 260px; padding: 20px; }
+  .about-team h2 { font-size: 1.8rem; }
+}
+
+/* === MOBILE PHONES === */
+@media (max-width: 600px) {
+  .about-hero { padding: 60px 15px; }
+  .about-hero h1 { font-size: 2rem; }
+  .about-hero p { font-size: 0.9rem; }
+  .about-story { flex-direction: column; padding: 30px 20px; text-align: center; }
+  .story-text { font-size: 0.95rem; }
+  .story-image img { max-width: 320px; }
+  .about-mission { padding: 50px 15px; }
+  .mission-cards { gap: 15px; }
+  .mission-cards .card { width: 90%; }
+  .about-team { padding: 50px 15px; }
+  .team-member { width: 200px; }
+  .team-member img { height: 180px; }
+  .about-quote { font-size: 1rem; padding: 40px 15px; }
+}
+
+/* === SMALL PHONES === */
+@media (max-width: 400px) {
+  .about-hero h1 { font-size: 1.6rem; }
+  .story-text { font-size: 0.9rem; }
+  .mission-cards .card { width: 95%; }
+  .team-member { width: 180px; padding: 15px; }
+  .team-member img { height: 150px; }
+  .about-quote { font-size: 0.9rem; }
 }
